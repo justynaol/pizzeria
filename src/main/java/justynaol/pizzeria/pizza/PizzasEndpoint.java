@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -25,6 +26,7 @@ public class PizzasEndpoint {
         this.pizzaRepository = pizzaRepository;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody PizzaDefinition definition) {
         List<Topping> toppings = definition.toppings.stream()
@@ -51,6 +53,7 @@ public class PizzasEndpoint {
         pizzaRepository.save(pizza);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @DeleteMapping("/{name}")
     public ResponseEntity<Void> delete(@PathVariable String name){
         pizzaRepository.deleteById(name);
