@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,6 +44,7 @@ public class PizzasDictionaryTests {
     }
 
     @Test
+    @Transactional
     public void updatePizzaInDictionary() throws Exception {
         //given
         pizzaRepository.save(new Pizza("margarita",
